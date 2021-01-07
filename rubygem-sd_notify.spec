@@ -8,7 +8,14 @@ Summary: Pure Ruby implementation of systemd's sd_notify(3)
 License: MIT
 URL: https://github.com/agis/ruby-sdnotify
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+# At the time of the packaging there were tests only in master branch.
+# The test suite is not shiped with the gem, you may check it out like so
+# git clone --no-checkout https://github.com/agis/ruby-sdnotify
+# cd ruby-sdnotify && git archive -v -o ruby-sdnotify-0.1.0-tests.txz a7d52eef8dc3e026309c41c2421649863e0cabba test/
+Source1: ruby-sdnotify-%{version}-tests.txz
+
 BuildRequires: ruby(release)
+BuildRequires: rubygem(minitest)
 BuildRequires: rubygems-devel
 BuildRequires: ruby
 BuildArch: noarch
@@ -16,7 +23,6 @@ BuildArch: noarch
 %description
 sd_notify can be used to notify systemd about various service status changes
 of Ruby programs.
-
 
 %package doc
 Summary: Documentation for %{name}
@@ -27,14 +33,10 @@ BuildArch: noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version}
+%setup -q -n %{gem_name}-%{version} -b1
 
 %build
-# Create the gem as gem install only works on a gem file
 gem build ../%{gem_name}-%{version}.gemspec
-
-# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
-# by default, so that we can move it into the buildroot in %%install
 %gem_install
 
 %install
@@ -42,11 +44,12 @@ mkdir -p %{buildroot}%{gem_dir}
 cp -a .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
-
-
 %check
 pushd .%{gem_instdir}
-# Run the test suite.
+# Symlink the test suite into plaec
+ln -s %{_builddir}/test .
+
+ruby -Ilib -e 'Dir.glob("./test/**/*_test.rb").sort.each{ |f| require f }'
 popd
 
 %files
