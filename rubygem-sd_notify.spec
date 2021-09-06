@@ -1,8 +1,8 @@
-# Generated from sd_notify-0.1.0.gem by gem2rpm -*- rpm-spec -*-
+# Generated from sd_notify-0.1.1.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name sd_notify
 
 Name: rubygem-%{gem_name}
-Version: 0.1.0
+Version: 0.1.1
 Release: 1%{?dist}
 Summary: Pure Ruby implementation of systemd's sd_notify(3)
 License: MIT
@@ -11,7 +11,7 @@ Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # At the time of the packaging there were tests only in master branch.
 # The test suite is not shiped with the gem, you may check it out like so
 # git clone --no-checkout https://github.com/agis/ruby-sdnotify
-# cd ruby-sdnotify && git archive -v -o ruby-sdnotify-0.1.0-tests.txz a7d52eef8dc3e026309c41c2421649863e0cabba test/
+# cd ruby-sdnotify && git archive -v -o ruby-sdnotify-0.1.1-tests.txz a7d52eef8dc3e026309c41c2421649863e0cabba test/
 Source1: ruby-sdnotify-%{version}-tests.txz
 
 BuildRequires: ruby(release)
@@ -65,5 +65,5 @@ popd
 %doc %{gem_instdir}/README.md
 
 %changelog
-* Wed Jan 06 2021 Pavel Valena <pvalena@redhat.com> - 0.1.0-1
+* Wed Jan 06 2021 Pavel Valena <pvalena@redhat.com> - 0.1.1-1
 - Initial package
